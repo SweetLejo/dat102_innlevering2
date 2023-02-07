@@ -3,7 +3,7 @@ package no.hvl.dat102.mengde.kjedet;
 //****************************************************************
 
 //    Representerer en iterator for en kjedet struktur av noder 
-//    kjedet lineært. 
+//    kjedet lineï¿½rt. 
 //****************************************************************
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
  * 
  */
 
+@SuppressWarnings("LossyEncoding")
 public class KjedetIterator<T> implements Iterator<T> {
 	private LinearNode<T> aktuell; // den aktuelle posisjonen.
 

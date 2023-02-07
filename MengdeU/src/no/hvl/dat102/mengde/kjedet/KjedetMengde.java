@@ -149,10 +149,16 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		} else {
 			Iterator<T> teller = m2.iterator();
 
-			
+			while(teller.hasNext() && likeMengder){
+				T element = teller.next();
+				if(!this.inneholder(element)){
+					likeMengder = false;
+				}
+
+			}
 
 		}
-		return true;// Midlertidig
+		return likeMengder;
 	}
 
 	@Override
@@ -171,47 +177,55 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		KjedetMengde<T> begge = new KjedetMengde<T>();
 	    LinearNode<T> aktuell = start;
 	    while (aktuell != null) {    
-	          begge.leggTil (aktuell.getElement());
+	          begge.settInn(aktuell.getElement());
 	          aktuell = aktuell.getNeste();   //this-mengden
-	    }//while
-	    Iterator<T> teller = m2.iterator();
-	    while (teller.hasNext()){
-	           begge.leggTil (teller.next());
-	     }   
+	    }
+		for (T element : m2) { //could also make a iterator and do the hasNext() in a while loop
+			if (!this.inneholder(element)) {
+				begge.settInn(element);
+			}
+		}
 	    return begge;
-	}//
+	}
 
 	@Override
 	public MengdeADT<T> snitt(MengdeADT<T> m2) {
-		// TODO
-		MengdeADT<T> snittM = new KjedetMengde<T>();
+		KjedetMengde<T> snittM = new KjedetMengde<T>();
+		Iterator<T> teller = m2.iterator();
 		T element;
-		/*
-		 * Fyll ut senere
-		 * 
-		 * if (this.inneholder(element)) ((KjedetMengde<T>) snittM).settInn(element);
-		 */
+		while(teller.hasNext()){
+			element = teller.next();
+			if(this.inneholder(element)){
+				snittM.settInn(element);
+			}
+		}
+
 		return snittM;
 	}
 
 	@Override
 	public MengdeADT<T> differens(MengdeADT<T> m2) {
-		// TODO
-		MengdeADT<T> differensM = new KjedetMengde<T>();
-		T element;
-		/*
-		 * Fyll ut senere
-		 * 
-		 */
+		KjedetMengde<T> differensM = new KjedetMengde<T>();
+		LinearNode<T> aktuell = start;
+		while(aktuell != null){
+			if(!m2.inneholder(aktuell.getElement())){
+				differensM.settInn(aktuell.getElement());
+			}
+			aktuell = aktuell.getNeste();
+		}
 
 		return differensM;
 	}
 
 	@Override
 	public boolean undermengde(MengdeADT<T> m2) {
-		// TODO
 		boolean erUnderMengde = true;
-		// ... Fyll ut senere
+		Iterator<T> iterator = m2.iterator();
+		while(iterator.hasNext()){
+			erUnderMengde = this.inneholder(iterator.next());
+		}
+
+
 		return erUnderMengde;
 	}
 

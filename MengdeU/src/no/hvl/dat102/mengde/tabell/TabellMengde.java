@@ -78,7 +78,7 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	@Override
 	public T fjern(T element) {
 
-		// Søker etter og fjerner element. Returnerer null-ref ved ikke-funn
+		// Sï¿½ker etter og fjerner element. Returnerer null-ref ved ikke-funn
 
 		if (erTom())
 			throw new EmptyCollectionException("mengde");
@@ -110,8 +110,8 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	}
 
 	/*
-	 * Når vi overkjører (override) equals- meteoden er det anbefalt at vi også
-	 * overkjører hashcode-metoden da en del biblioterker brker hashcode sammen med
+	 * Nï¿½r vi overkjï¿½rer (override) equals- meteoden er det anbefalt at vi ogsï¿½
+	 * overkjï¿½rer hashcode-metoden da en del biblioterker brker hashcode sammen med
 	 * equals. Vi kommer tilbake til forklaring og bruk av hashcode senere i faget.
 	 */
 	@Override
@@ -125,12 +125,26 @@ public class TabellMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public boolean equals(Object m2) {
-		boolean likeMengder = true;
-		T element;
+		if(m2 == null){
+			return false;
+		}
+		if(this.getClass() != m2.getClass()){
+			return false;
+		}
+		if(this == m2){
+			return true;
+		}
+		TabellMengde<T> tabell2 = (TabellMengde<T>) m2;
+		if(tabell2.antall != antall){
+			return false;
+		}
 
-		/*
-		 * ...Fyll ut
-		 */
+		boolean likeMengder = true;
+		for(int i = 0 ; i < this.antall && likeMengder; i++){
+			if(!tabell2.inneholder(tab[i])){
+				likeMengder = false;
+			}
+		}
 		return likeMengder;
 	}
 

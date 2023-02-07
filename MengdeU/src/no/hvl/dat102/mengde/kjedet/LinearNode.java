@@ -2,6 +2,7 @@ package no.hvl.dat102.mengde.kjedet;
 //  Representerer en node.
 //************************************************************
 
+@SuppressWarnings("LossyEncoding")
 class LinearNode<T>{
   private LinearNode<T> neste;
   private T element;
@@ -21,7 +22,7 @@ class LinearNode<T>{
     element = elem;
   }
  /**********************************************************
-    Returnerer etterfølger.
+    Returnerer etterfï¿½lger.
   **********************************************************/
   public LinearNode<T> getNeste() {
     return neste;
