@@ -142,18 +142,18 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		if (getClass() != ny.getClass()) {
 			return false;
 		}
+
 		boolean likeMengder = true;
 		MengdeADT<T> m2 = (KjedetMengde<T>) ny;
-		if (this.antall != m2.antall()) {
+		if (this.antall() != m2.antall()) {
 			likeMengder = false;
-		} else {
+		}
 			Iterator<T> teller = m2.iterator();
-
+			T element;
 			while(teller.hasNext() && likeMengder){
-				T element = teller.next();
+				element = teller.next();
 				if(!this.inneholder(element)){
 					likeMengder = false;
-				}
 
 			}
 

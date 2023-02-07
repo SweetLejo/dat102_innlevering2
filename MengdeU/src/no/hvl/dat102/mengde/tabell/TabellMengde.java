@@ -152,12 +152,13 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	public MengdeADT<T> union(MengdeADT<T> m2) { // Denne metoden erstattes med en mer effektiv, se KladdeoppgaveNr3
 		TabellMengde<T> begge = new TabellMengde<T>();
 		for (int i = 0; i < antall; i++) {
-			begge.leggTil(tab[i]);
+			begge.settInn(tab[i]);
 		}
-		Iterator<T> teller = m2.iterator();
 
-		while (teller.hasNext()) {
-			begge.leggTil(teller.next());
+		for (T element : m2) {
+			if (!this.inneholder(element)) {
+				begge.settInn(element);
+			}
 		}
 		return (MengdeADT<T>) begge;
 	}
