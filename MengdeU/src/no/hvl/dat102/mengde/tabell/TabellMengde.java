@@ -165,32 +165,40 @@ public class TabellMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public MengdeADT<T> snitt(MengdeADT<T> m2) {
-		MengdeADT<T> snittM = new TabellMengde<T>();
+		TabellMengde<T> snittM = new TabellMengde<T>();
 		T element = null;
-		/*
-		 * ...Fyll ut senere
-		 */
+		Iterator<T> counter = m2.iterator();
+		while(counter.hasNext()){
+			element = counter.next();
+			if(this.inneholder(element)){
+				snittM.settInn(element);
+			}
+		}
 		return snittM;
 	}
 
 	@Override
 	public MengdeADT<T> differens(MengdeADT<T> m2) {
-		MengdeADT<T> differensM = new TabellMengde<T>();
+		TabellMengde<T> differensM = new TabellMengde<T>();
 		T element;
-		/*
-		 * Fyll ut senere
-		 * 
-		 * if (!m2.inneholder(element)) ((TabellMengde<T>) differensM).settInn(element);
-		 */
-
+		Iterator<T> counter = this.iterator();
+		while(counter.hasNext()){
+			element = counter.next();
+			if(!m2.inneholder(element)){
+				differensM.settInn(element);
+			}
+		}
 		return differensM;
 	}
 
 	@Override
 	public boolean undermengde(MengdeADT<T> m2) {
 		boolean erUnderMengde = true;
-		// ...Fyll ut senere
-		return false;
+		Iterator<T> counter = m2.iterator();
+		while(counter.hasNext() && erUnderMengde){
+			erUnderMengde = this.inneholder(counter.next());
+		}
+		return erUnderMengde;
 	}
 
 	@Override
@@ -206,4 +214,12 @@ public class TabellMengde<T> implements MengdeADT<T> {
 		antall++;
 	}
 
-}// class
+	@Override
+	public String toString(){
+		StringBuilder done = new StringBuilder();
+		for (T t : this) {
+			done.append(t.toString()).append(", ");
+		}
+		return done.toString();
+	}
+}

@@ -109,13 +109,26 @@ public abstract class MengdeADTtest {
     @Test
     public void testsnitt(){
         assertEquals(m1, m1.snitt(m2));
-        assertEquals(m3, m2.snitt(m3));
+        m3.leggTil("hello");
+        assertEquals(m1.differens(m2), m2.snitt(m3));
     }
 
     @Test
     public void testdifferens(){
         assertEquals(m3, m1.differens(m2));
         assertNotEquals(m1, m1.differens(m2));
+
+        m3.leggTil("God");
+        m3.leggTil("dag");
+        m3.leggTil("Hans");
+
+        m2.fjern("God");
+        m2.fjern("dag");
+        m2.fjern("Hans");
+
+        assertNotEquals(m3, m1.differens(m3));
+        assertEquals(m2, m1.differens(m3));
+
     }
 
     @Test
