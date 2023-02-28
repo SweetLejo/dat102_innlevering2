@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class KjedetMengdeTest extends MengdeADTTest{
 
 	@Override
-	protected KjedetMengde<Integer> init() {
+	public MengdeADT<String> init() {
 		return new KjedetMengde<>();
 	}
 

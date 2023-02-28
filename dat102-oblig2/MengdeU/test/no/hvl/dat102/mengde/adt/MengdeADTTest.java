@@ -2,81 +2,140 @@ package no.hvl.dat102.mengde.adt;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 public abstract class MengdeADTTest {
-	
-	private MengdeADT<Integer> m1;
-	private MengdeADT<Integer> m2;
-	private Integer a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7, h = 8;
-	
-	protected abstract MengdeADT<Integer> init();
-	
-	@BeforeEach
-	public void setup() {
-		m1 = init();
-		m2 = init();
-		m1.leggTil(a);
-		m1.leggTil(b);
-		m1.leggTil(c);
-		m1.leggTil(d);
-		m1.leggTil(e);
-		m2.leggTil(f);
-		m2.leggTil(g);
-		m2.leggTil(h);
-		m2.leggTil(a);
-		m2.leggTil(b);
-	}
-	
-	@Test
-	public void testInneholder() {
-		assertTrue(m1.inneholder(a));
-		assertTrue(m1.inneholder(e));
-		assertTrue(m2.inneholder(b));
-		assertFalse(m2.inneholder(c));
-	}
-	
-	@Test
-	public void testUnion() {		
-		MengdeADT<Integer> m3 = m1.union(m2);
-		assertTrue(m3.inneholder(a));
-		assertTrue(m3.inneholder(b));
-		assertTrue(m3.inneholder(c));
-		assertTrue(m3.inneholder(d));
-		assertTrue(m3.inneholder(e));
-		assertTrue(m3.inneholder(f));
-		assertTrue(m3.inneholder(g));
-		assertTrue(m3.inneholder(h));
-		
-		m3.fjern(a);
-		assertFalse(m3.inneholder(a));
-		m3.fjern(b);
-		assertFalse(m3.inneholder(b));
-	}
-	
-	@Test
-	public void testSnitt() {
-		MengdeADT<Integer> m3 = m1.snitt(m2);
-		assertTrue(m3.inneholder(a));
-		assertTrue(m3.inneholder(b));
-		assertFalse(m3.inneholder(c));
-		assertFalse(m3.inneholder(h));
-	}
-	
-	@Test
-	public void testDifferens() {
-		MengdeADT<Integer> differens = init();
-		MengdeADT<Integer> m3 = m1.differens(m2);
-		assertTrue(m3.inneholder(c));
-		assertTrue(m3.inneholder(d));
-		assertTrue(m3.inneholder(e));
-		assertFalse(m3.inneholder(a));
-		assertFalse(m3.inneholder(b));
-		assertFalse(m3.inneholder(f));
-		assertFalse(m3.inneholder(g));
-		assertFalse(m3.inneholder(h));
-	}
-	
+
+    private MengdeADT<String> m1;
+    private MengdeADT<String> m2;
+    private MengdeADT<String> m3;
+    public abstract MengdeADT<String> init();
+
+    @Before
+    public void setup(){
+        m1 = init();
+        m2 = init();
+        m3 = init();
+
+        String[] ord = { "God", "dag", "Hans", "Hansen", "Hansaby", "Foerde","Olsen", "Ole", "buss", "rute", "Bergen" };
+        for(String word : ord){
+            m1.leggTil(word);
+            m2.leggTil(word);
+        }
+    }
+    @Test
+    public void testleggTill(){
+        assertEquals(m1, m2);
+
+        //test adding duplicate
+        m1.leggTil("Hans");
+        assertEquals(m1, m2);
+
+        //test adding a new element
+        m1.leggTil("hello");
+        assertNotEquals(m1, m2);
+    }
+
+    @Test
+    public void leggTilAlle(){
+        //test if it works when they are the same
+        m1.leggTilAlle(m2);
+        assertEquals(m1, m2);
+        m2.leggTil("hello");
+        m2.leggTil("what");
+        m1.leggTilAlle(m2);
+        assertEquals(m1, m2);
+    }
+
+    @Test
+    public void testfjernTilfeldig(){
+        m1.fjernTilfeldig();
+        assertNotEquals(m1,m2);
+    }
+
+    @Test
+    public void testFjern(){
+        m1.fjern("hello");
+        assertEquals(m1, m2);
+        m1.fjern("God");
+        assertNotEquals(m1, m2);
+        assertEquals("Hans", m1.fjern("Hans"));
+    }
+    @Test
+    public void testUnion(){
+        for(String i : m1){
+            m3.leggTil(i);
+        }
+        assertEquals(m3, m1.union(m2));
+        m1.leggTil("hello");
+        m1.leggTil("what");
+        assertNotEquals(m3, m1.union(m2));
+        m3.leggTil("hello");
+        m3.leggTil("what");
+        assertEquals(m3, m2.union(m1));
+        assertEquals(m1, m1.union(m1));
+    }
+
+    @Test
+    public void testinneholder(){
+        assertFalse(m1.inneholder("hello"));
+        assertTrue(m1.inneholder("God"));
+    }
+    @Test
+    public void testequals(){
+        assertTrue(m1.equals(m2));
+        assertFalse(m1.equals(m3));
+        m3.leggTil("hello");
+        assertFalse(m3.equals(m1));
+    }
+
+    @Test
+    public void testerTom(){
+        assertTrue(m3.erTom());
+        assertFalse(m1.erTom());
+    }
+
+    @Test
+    public void testantall(){
+        assertEquals(0, m3.antall());
+        assertEquals(11, m1.antall());
+    }
+
+    @Test
+    public void testsnitt(){
+        assertEquals(m1, m1.snitt(m2));
+        m3.leggTil("hello");
+        assertEquals(m1.differens(m2), m2.snitt(m3));
+    }
+
+    @Test
+    public void testdifferens(){
+        assertEquals(m3, m1.differens(m2));
+        assertNotEquals(m1, m1.differens(m2));
+
+        m3.leggTil("God");
+        m3.leggTil("dag");
+        m3.leggTil("Hans");
+
+        m2.fjern("God");
+        m2.fjern("dag");
+        m2.fjern("Hans");
+
+        assertNotEquals(m3, m1.differens(m3));
+        assertEquals(m2, m1.differens(m3));
+
+    }
+
+    @Test
+    public void testUndermengde(){
+        assertTrue(m1.undermengde(m3));
+        assertTrue(m1.undermengde(m2));
+        m3.leggTil("hello");
+        assertFalse(m1.undermengde(m3));
+    }
+
 }

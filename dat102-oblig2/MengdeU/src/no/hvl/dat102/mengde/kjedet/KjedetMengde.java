@@ -194,8 +194,6 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 			T element = teller.next();
 			if(this.inneholder(element)) {
 				((KjedetMengde<T>) snitt).settInn(element);
-			} else {
-				((KjedetMengde<T>) snitt).fjern(element);
 			}
 		}
 
@@ -207,16 +205,10 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		MengdeADT<T> differens = new KjedetMengde<T>();
 		LinearNode<T> aktuell = start;
 		while(aktuell != null) {
-			((KjedetMengde<T>) differens).settInn(aktuell.getElement());
+			if(!m2.inneholder(aktuell.getElement())) {
+				((KjedetMengde<T>) differens).settInn(aktuell.getElement());
+			}
 			aktuell = aktuell.getNeste();
-		}
-		
-		Iterator<T> teller = m2.iterator();
-		while(teller.hasNext()) {
-			T element = teller.next();
-			if(this.inneholder(element)) {
-				((KjedetMengde<T>) differens).fjern(element);
-			} 
 		}
 
 		return differens;
@@ -227,9 +219,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		boolean erUnderMengde = true;
 		Iterator<T> teller = m2.iterator();
 		while(teller.hasNext() && erUnderMengde) {
-			if(!this.inneholder(teller.next())) {
-				erUnderMengde = false;
-			}
+				erUnderMengde = this.inneholder(teller.next());
 		}
 		return erUnderMengde;
 	}
@@ -247,13 +237,13 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 	}
 	
 	public String toString(){ 
-		String resultat = ""; 
-		LinearNode<T> aktuell = start; 
-		while(aktuell != null){ 
-			resultat += aktuell.getElement().toString() + "\t";  
-		    aktuell = aktuell.getNeste(); 
-		} 
-		return resultat; 
+        StringBuilder resultat = new StringBuilder();
+        LinearNode<T> aktuell = start;
+        while (aktuell != null) {
+            resultat.append(aktuell.getElement().toString()).append("\t");
+            aktuell = aktuell.getNeste();
+        }
+        return resultat.toString();
 	} 
 
 }// class

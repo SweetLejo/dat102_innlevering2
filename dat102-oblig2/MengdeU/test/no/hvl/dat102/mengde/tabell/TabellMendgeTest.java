@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class TabellMendgeTest extends MengdeADTTest{
 
 	@Override
-	protected TabellMengde<Integer> init() {
+	public MengdeADT<String> init() {
 		return new TabellMengde<>();
 	}
 }

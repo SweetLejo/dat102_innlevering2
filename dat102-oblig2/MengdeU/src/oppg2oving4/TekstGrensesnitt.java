@@ -50,7 +50,8 @@ public class TekstGrensesnitt {
 			int parIndex = arkiv.getMedlem(i).getStatusIndex();
 			if(parIndex > i) {
 				System.out.format(LISTE_FORMAT, 
-						arkiv.getMedlem(i) + " og " + arkiv.getMedlem(parIndex),
+						arkiv.getMedlem(i) + " og " 
+								+ arkiv.getMedlem(parIndex).getNavn(),
 						arkiv.getMedlem(i).getHobbyer());
 			}
 		}

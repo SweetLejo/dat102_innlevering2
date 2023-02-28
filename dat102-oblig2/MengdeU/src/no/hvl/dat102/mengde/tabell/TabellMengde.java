@@ -142,19 +142,11 @@ public class TabellMengde<T> implements MengdeADT<T> {
 		} 
 		
 		boolean likeMengder = true;
-		for(T element : tab) {
-			if(!ny.inneholder(element)) {
+		for(int i = 0; i < antall && likeMengder; i++) {
+			if(!ny.inneholder(tab[i])) {
 				likeMengder = false;
 			}
 		}
-		
-//		Hvis rekkefølge er vikitg
-//		Iterator<T> teller = ny.iterator();
-//		for(int i = 0; i < antall && likeMengder; i++) {
-//			if(tab[i] != teller.next()) {
-//				likeMengder = false;
-//			}
-//		}
 			
 		return likeMengder;
 	}
@@ -210,9 +202,7 @@ public class TabellMengde<T> implements MengdeADT<T> {
 		boolean erUnderMengde = true;
 		Iterator<T> teller = m2.iterator();
 		while(teller.hasNext() && erUnderMengde) {
-			if(!this.inneholder(teller.next())) {
-				erUnderMengde = false;
-			}
+				erUnderMengde = this.inneholder(teller.next());
 		}
 		return erUnderMengde;
 	}
@@ -231,11 +221,11 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	}
 
 	public String toString(){ 
-		String resultat = ""; 
+		StringBuilder resultat = new StringBuilder();
 		for(int i = 0; i < antall; i++) {
-			resultat += tab[i].toString() + "\t";  
+			resultat.append(tab[i].toString()).append("\t");  
 		} 
-		return resultat; 
+		return resultat.toString(); 
 	} 
 	
 }// class
