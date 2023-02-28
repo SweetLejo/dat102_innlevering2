@@ -155,7 +155,6 @@ public class KjedetMengde<T> implements MengdeADT<T> {
             element = teller.next();
             if (!this.inneholder(element)) {
                 likeMengder = false;
-
             }
 
         }
@@ -200,7 +199,6 @@ public class KjedetMengde<T> implements MengdeADT<T> {
                 snittM.settInn(element);
             }
         }
-
         return snittM;
     }
 
@@ -214,7 +212,6 @@ public class KjedetMengde<T> implements MengdeADT<T> {
             }
             aktuell = aktuell.getNeste();
         }
-
         return differensM;
     }
 
@@ -222,11 +219,9 @@ public class KjedetMengde<T> implements MengdeADT<T> {
     public boolean undermengde(MengdeADT<T> m2) {
         boolean erUnderMengde = true;
         Iterator<T> iterator = m2.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext() && erUnderMengde) {
             erUnderMengde = this.inneholder(iterator.next());
         }
-
-
         return erUnderMengde;
     }
 
